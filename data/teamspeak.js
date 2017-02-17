@@ -23,9 +23,9 @@ class Teamspeak {
             }
             this._client.api.use({
                 sid: gConfig.tsServerId
-            }, uerr => {
-                if (uerr) {
-                    return callback(uerr);
+            }, uErr => {
+                if (uErr) {
+                    return callback(uErr);
                 }
                 return callback();
             });

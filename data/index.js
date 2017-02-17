@@ -24,5 +24,4 @@ exports.startUpDatabase = callback => {
 exports.startUpTeamspeak = callback => {
     global.gTeamspeak = new Teamspeak();
     gTeamspeak.connect(callback);
-
 };

@@ -14,6 +14,10 @@ loadConfig((config) => {
             throw err;
         }
 
-
+        data.startUpTeamspeak(err => {
+            if (err) {
+                throw err;
+            }
+        })
     });
 });

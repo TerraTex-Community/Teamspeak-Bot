@@ -2,6 +2,7 @@
  * Created by C5217649 on 17.02.2017.
  */
 const Database = require("./database");
+const Teamspeak = require("./teamspeak");
 
 exports.startUpDatabase = callback => {
     global.gDatabase = new Database();
@@ -18,4 +19,10 @@ exports.startUpDatabase = callback => {
             })
         }
     });
+};
+
+exports.startUpTeamspeak = callback => {
+    global.gTeamspeak = new Teamspeak();
+    gTeamspeak.connect(callback);
+
 };

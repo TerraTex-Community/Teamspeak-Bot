@@ -26,5 +26,9 @@ class Teamspeak {
             });
         });
     }
+
+    get client() {
+        return this._client;
+    }
 }
 module.exports = Teamspeak;

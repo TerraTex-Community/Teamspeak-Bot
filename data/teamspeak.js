@@ -5,6 +5,11 @@ const Ts = require("node-teamspeak-api");
 
 class Teamspeak {
     constructor() {
+        /**
+         *
+         * @type {TeamSpeak}
+         * @private
+         */
         this._client = new Ts(gConfig.teamspeakIp, gConfig.queryPort);
     }
 
@@ -27,6 +32,10 @@ class Teamspeak {
         });
     }
 
+    /**
+     *
+     * @returns {TeamSpeak}
+     */
     get client() {
         return this._client;
     }

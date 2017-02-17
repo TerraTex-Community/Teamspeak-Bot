@@ -4,12 +4,16 @@
 
 // startup process
 const loadConfig = require("./config/loadConfig").getConfig;
-const Database = require("./data/database");
+const data = require("./data/index");
 
 loadConfig((config) => {
     global.gConfig = config;
-    console.log(config);
 
-    global.gDatabase = new Database();
-    gDatabase.authenticate();
+    data.startUpDatabase(err => {
+        if (err) {
+            throw err;
+        }
+
+
+    });
 });

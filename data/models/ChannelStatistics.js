@@ -12,7 +12,8 @@ module.exports = function (sequelize, DataTypes) {
         ChannelID: {
             type: DataTypes.BIGINT,
         },
-        UserCount: DataTypes.INTEGER
+        UserCount: DataTypes.INTEGER,
+        UserCountWithChilds: DataTypes.INTEGER
     }, {
         timestamps: true
     });

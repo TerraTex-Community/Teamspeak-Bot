@@ -13,9 +13,28 @@ module.exports = {
     features: {
         channelStatistics: {
             enabled: true,
-            defaultTag: "Channel-Statistiken",
-            // possible stats: max24h, avg24h, max7d, avg7d, max6m, avg6m, max3m, avg3m
-            showStats: ["max24h", "avg24h", "max7d", "avg7d"]
+            // defaultTag: "Channel-Statistiken",  -> Not Used For Now
+            // types: max, avg, usage  (max: maximal Usernumber, avg: Average Usernumber, usage: Percentage: UsedTime/TotalTime
+            // times: 1d, 7d, 1m, 3m, All
+            showStats: [
+                {
+                    timeFrame: "1d",
+                    stats: ["max", "usage", "avg"]
+                },
+                {
+                    timeFrame: "7d",
+                    stats: ["usage"]
+                },
+                {
+                    timeFrame: "1m",
+                    stats: ["usage"]
+                },
+                {
+                    timeFrame: "3m",
+                    stats: ["usage"]
+                }
+            ],
+            countTreeTogether: true
         }
     },
     database: {

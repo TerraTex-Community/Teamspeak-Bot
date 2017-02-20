@@ -18,6 +18,11 @@ loadConfig((config) => {
             if (err) {
                 throw err;
             }
+
+
+            //start up done
+            //require feature systems
+            require("./features/index");
         })
     });
 });

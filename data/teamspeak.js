@@ -17,6 +17,7 @@ class Teamspeak {
     _addErrorHandler() {
         this._client.on('error', error => {
             console.error(error);
+            this._client.connect();
         });
         this._client.on('close', () => {
             this.connect();
@@ -28,7 +29,6 @@ class Teamspeak {
     }
 
     connect(callback) {
-        this._client.connect();
         this._client.api.login({
             client_login_name: gConfig.username,
             client_login_password: gConfig.password

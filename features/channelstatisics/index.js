@@ -15,6 +15,9 @@ class ChannelStatistics {
         this._channels = {};
 
         gTeamspeak.client.send("channellist", (err, resp) => {
+            if (err) {
+                return console.error(err);
+            }
 
             for (const channel of resp.data) {
                 this._channels[channel.cid] = {
@@ -139,6 +142,10 @@ class ChannelStatistics {
         for (const channelId in dbResults) {
             if (dbResults.hasOwnProperty(channelId)) {
                 gTeamspeak.client.send("channelinfo", {cid: channelId}, (err, resp) => {
+                    if (err) {
+                        return console.error(err);
+                    }
+
                     let description = resp.data.channel_description;
                     const regResult = description.match(descriptionRegExp);
                     const channel = dbResults[channelId];
@@ -154,6 +161,10 @@ class ChannelStatistics {
                     gTeamspeak.client.send("channeledit", {
                         cid: channelId,
                         channel_description:description
+                    }, err => {
+                        if (err) {
+                            return console.error(err);
+                        }
                     });
 
                 });

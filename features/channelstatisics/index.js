@@ -149,10 +149,20 @@ class ChannelStatistics {
                                     ChannelID: channelId
                                 }
                             }).then(() => {
-                                console.info("Removed Channel " + channelId + " from Channelstatistics.");
+                                console.info("Removed Channel " + channelId + " from Channelstatistics, Reason: not existing anymore.");
                             });
                         }
                         return console.error(err);
+                    }
+
+                    if (resp.data.channel_flag_permanent === 0) {
+                        return gDatabase.tableChannelStatistics.destroy({
+                            where: {
+                                ChannelID: channelId
+                            }
+                        }).then(() => {
+                            console.info("Removed Channel " + channelId + " from Channelstatistics, Reason: not permanent.");
+                        });
                     }
 
                     let description = resp.data.channel_description;

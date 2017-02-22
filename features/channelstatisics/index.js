@@ -180,9 +180,9 @@ class ChannelStatistics {
                     gTeamspeak.client.send("channeledit", {
                         cid: channelId,
                         channel_description:description
-                    }, err => {
-                        if (err) {
-                            return console.error(err);
+                    }, error => {
+                        if (error) {
+                            return console.error(error);
                         }
                     });
 

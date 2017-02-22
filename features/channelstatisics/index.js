@@ -82,32 +82,32 @@ class ChannelStatistics {
                 showStats[1] = {
                     txt: "Last 24 Hours: ",
                     types: obj.stats
-                }
+                };
             }
             if (obj.timeFrame === '7d') {
                 showStats[7] = {
                     txt: "Last 7 Days: ",
                     types: obj.stats
-                }
+                };
             }
             if (obj.timeFrame === '1m') {
                 showStats[30] = {
                     txt: "Last Month: ",
                     types: obj.stats
-                }
+                };
             }
             if (obj.timeFrame === '3m') {
                 showStats[90] = {
                     txt: "Last 3 Month: ",
                     types: obj.stats
-                }
+                };
             }
             if (obj.timeFrame === 'All') {
                 // 20 Years should be enough ;-)
                 showStats[7300] = {
                     txt: "All Time: ",
                     types: obj.stats
-                }
+                };
             }
         }
 
@@ -143,6 +143,15 @@ class ChannelStatistics {
             if (dbResults.hasOwnProperty(channelId)) {
                 gTeamspeak.client.send("channelinfo", {cid: channelId}, (err, resp) => {
                     if (err) {
+                        if (err.error_id === 768) {
+                            gDatabase.tableChannelStatistics.destroy({
+                                where: {
+                                    ChannelID: channelId
+                                }
+                            }).then(() => {
+                                console.info("Removed Channel " + channelId + " from Channelstatistics.");
+                            });
+                        }
                         return console.error(err);
                     }
 
@@ -253,7 +262,7 @@ class ChannelStatistics {
                     $notIn: doNotEdit
                 }
             }
-        })
+        });
     }
 }
 const classInstance = new ChannelStatistics();

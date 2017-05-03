@@ -43,6 +43,18 @@ module.exports = {
             updateChannelStartTime: "1:00",
             // updateMaxChannelsPerLoop is the maximum number of updated channel describtions per loop
             updateMaxChannelsPerLoop: 25
+        },
+        registration: {
+            // should registration feature enabled
+            enabled: true,
+            // enable automatic group registration
+            automatic: true,
+            // set group after [automaticAfterConnectTime] Minutes connection time  (0 or lower will directly set group)
+            automaticAfterConnectTime: 10,
+            // groupId that should be set
+            groupId: 0,
+            // set only once or everytime user has not this group
+            onlyOnce: true
         }
     },
     database: {

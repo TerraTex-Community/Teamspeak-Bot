@@ -32,6 +32,7 @@ class Database {
 
     loadModels(callback) {
         this._tableChannelStatistics = this._sequelize.import(__dirname + "/models/ChannelStatistics");
+        this._tableUser = this._sequelize.import(__dirname + "/models/User");
         this._sequelize.sync()
             .then(success => {
                 callback(null, success);
@@ -43,6 +44,10 @@ class Database {
 
     get tableChannelStatistics() {
         return this._tableChannelStatistics;
+    }
+
+    get tableUser() {
+        return this._tableUser;
     }
 }
 module.exports = Database;

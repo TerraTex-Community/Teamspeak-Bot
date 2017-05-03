@@ -34,7 +34,13 @@ module.exports = {
                     stats: ["usage"]
                 }
             ],
-            countTreeTogether: true
+            countTreeTogether: true,
+            // will channel not update on each loop
+            updateOncePerDay: true,
+            // if updateOncePerDay = true this is mandatory to set which time the update will start. Attention: Using a Time between 0:00 and 1:00 will cause errors
+            updateChannelStartTime: "1:00",
+            // updateMaxChannelsPerLoop is the maximum number of updated channel describtions per loop
+            updateMaxChannelsPerLoop: 25
         }
     },
     database: {

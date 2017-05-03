@@ -9,6 +9,8 @@ class ChannelStatistics {
     constructor() {
         this._channels = {};
         setInterval(this.updateChannelEntries.bind(this), 600000);
+        this._maxCounter = 0;
+        this._updatedChannels = [];
     }
 
     updateChannelEntries() {
@@ -130,65 +132,99 @@ class ChannelStatistics {
         Promise.all(allPromises).then(values => {
             values.unshift(true);
             const result = merge.recursive.apply(this, values);
-            this._updateAllChannelDescription(showStats, result);
+            if (!gConfig.features.channelStatistics.updateOncePerDay) {
+                this._updateAllChannelDescription(showStats, result);
+            } else {
+                this._updateChannelsOnce(showStats, result);
+            }
         });
     }
 
-    _updateAllChannelDescription(timeDefinitions, dbResults) {
-        const descriptionRegExp = /\[ChannelStatistics\](?:.|\n)*\/ChannelStatistics\]/gm;
+    _updateChannelsOnce(timeDefinitions, dbResults) {
+        const currentDateTime = new Date();
+        if (currentDateTime.getHours() === 0 && currentDateTime.getMinutes() < 30) {
+            this._maxCounter = 0;
+            this._updatedChannels = [];
+        }
 
-        // channeledit cid=15 channel_codec_quality=3 channel_description=My\sDescription
+        const splittedTime = gConfig.features.channelStatistics.updateChannelStartTime.split(":");
+        if (splittedTime.length === 1) {
+            splittedTime[1] = 0;
+        }
 
-        for (const channelId in dbResults) {
-            if (dbResults.hasOwnProperty(channelId)) {
-                gTeamspeak.client.send("channelinfo", {cid: channelId}, (err, resp) => {
-                    if (err) {
-                        if (err.error_id === 768) {
-                            gDatabase.tableChannelStatistics.destroy({
-                                where: {
-                                    ChannelID: channelId
-                                }
-                            }).then(() => {
-                                console.info("Removed Channel " + channelId + " from Channelstatistics, Reason: not existing anymore.");
-                            });
-                        }
-                        return console.error(err);
+        const nextStartDate = new Date(currentDateTime.getFullYear(), currentDateTime.getMonth(), currentDateTime.getDate(), splittedTime[0], splittedTime[1]);
+
+        if (nextStartDate.getTime() < currentDateTime.getTime()) {
+            this._maxCounter = 0;
+            for (const channelId in dbResults) {
+                if (dbResults.hasOwnProperty(channelId) && this._updatedChannels.indexOf(channelId) === -1) {
+                    this._updateChannelDescription(channelId, timeDefinitions, dbResults[channelId]);
+
+                    this._maxCounter++;
+                    if (this._maxCounter !== -1 && this._maxCounter > gConfig.features.channelStatistics.updateMaxChannelsPerLoop) {
+                        break;
                     }
-
-                    if (resp.data.channel_flag_permanent === 0) {
-                        return gDatabase.tableChannelStatistics.destroy({
-                            where: {
-                                ChannelID: channelId
-                            }
-                        }).then(() => {
-                            console.info("Removed Channel " + channelId + " from Channelstatistics, Reason: not permanent.");
-                        });
-                    }
-
-                    let description = resp.data.channel_description;
-                    const regResult = description.match(descriptionRegExp);
-                    const channel = dbResults[channelId];
-
-                    const newContent = this._getNewChannelContent(channel, timeDefinitions);
-
-                    if (regResult && regResult.length > 0) {
-                        description = description.replace(descriptionRegExp, newContent);
-                    } else {
-                        description += ('\n\n' + newContent);
-                    }
-
-                    gTeamspeak.client.send("channeledit", {
-                        cid: channelId,
-                        channel_description:description
-                    }, error => {
-                        if (error) {
-                            return console.error(error);
-                        }
-                    });
-
-                });
+                }
             }
         }
+    }
+
+    _updateAllChannelDescription(timeDefinitions, dbResults) {
+        // channeledit cid=15 channel_codec_quality=3 channel_description=My\sDescription
+        for (const channelId in dbResults) {
+            if (dbResults.hasOwnProperty(channelId)) {
+                this._updateChannelDescription(channelId, timeDefinitions, dbResults[channelId]);
+            }
+        }
+    }
+
+    _updateChannelDescription(channelId, timeDefinitions, channel) {
+        const descriptionRegExp = /\[ChannelStatistics\](?:.|\n)*\/ChannelStatistics\]/gm;
+        gTeamspeak.client.send("channelinfo", {cid: channelId}, (err, resp) => {
+            if (err) {
+                if (err.error_id === 768) {
+                    gDatabase.tableChannelStatistics.destroy({
+                        where: {
+                            ChannelID: channelId
+                        }
+                    }).then(() => {
+                        console.info("Removed Channel " + channelId + " from Channelstatistics, Reason: not existing anymore.");
+                    });
+                }
+                return console.error(err);
+            }
+
+            if (resp.data.channel_flag_permanent === 0) {
+                return gDatabase.tableChannelStatistics.destroy({
+                    where: {
+                        ChannelID: channelId
+                    }
+                }).then(() => {
+                    console.info("Removed Channel " + channelId + " from Channelstatistics, Reason: not permanent.");
+                });
+            }
+
+            let description = resp.data.channel_description;
+            const regResult = description.match(descriptionRegExp);
+
+            const newContent = this._getNewChannelContent(channel, timeDefinitions);
+
+            if (regResult && regResult.length > 0) {
+                description = description.replace(descriptionRegExp, newContent);
+            } else {
+                description += ('\n\n' + newContent);
+            }
+
+            gTeamspeak.client.send("channeledit", {
+                cid: channelId,
+                channel_description: description
+            }, error => {
+                if (error) {
+                    return console.error(error);
+                }
+            });
+
+        });
     }
 
     _getNewChannelContent(channel, timeDefinitions) {
@@ -205,7 +241,7 @@ class ChannelStatistics {
 
                 if (gConfig.features.channelStatistics.countTreeTogether) {
                     if (timeConfig.types.indexOf('avg') !== -1) {
-                        lineArray.push('Avg: ' + (Math.round(timeData.SumUserWithChilds / timeData.CountedEntries *100) / 100));
+                        lineArray.push('Avg: ' + (Math.round(timeData.SumUserWithChilds / timeData.CountedEntries * 100) / 100));
                     }
 
                     if (timeConfig.types.indexOf('max') !== -1) {
@@ -213,11 +249,11 @@ class ChannelStatistics {
                     }
 
                     if (timeConfig.types.indexOf('usage') !== -1) {
-                        lineArray.push('Usage: ' + (Math.round(timeData.UserEntriesWithChilds / timeData.CountedEntries *10000) / 100) + '%');
+                        lineArray.push('Usage: ' + (Math.round(timeData.UserEntriesWithChilds / timeData.CountedEntries * 10000) / 100) + '%');
                     }
                 } else {
                     if (timeConfig.types.indexOf('avg') !== -1) {
-                        lineArray.push('Avg: ' + (Math.round(timeData.SumUser / timeData.CountedEntries *100) / 100));
+                        lineArray.push('Avg: ' + (Math.round(timeData.SumUser / timeData.CountedEntries * 100) / 100));
                     }
 
                     if (timeConfig.types.indexOf('max') !== -1) {
@@ -225,7 +261,7 @@ class ChannelStatistics {
                     }
 
                     if (timeConfig.types.indexOf('usage') !== -1) {
-                        lineArray.push('Usage: ' + (Math.round(timeData.UserEntries / timeData.CountedEntries *10000) / 100) + '%');
+                        lineArray.push('Usage: ' + (Math.round(timeData.UserEntries / timeData.CountedEntries * 10000) / 100) + '%');
                     }
                 }
 

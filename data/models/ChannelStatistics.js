@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
             primaryKey: true
         },
         ChannelID: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.BIGINT
         },
         UserCount: DataTypes.INTEGER,
         UserCountWithChilds: DataTypes.INTEGER

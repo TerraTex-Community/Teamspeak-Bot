@@ -10,13 +10,13 @@ exports.startUpDatabase = callback => {
         if (err) {
             callback(err);
         } else {
-            gDatabase.loadModels(err => {
-                if (err) {
-                    callback(err);
+            gDatabase.loadModels(mErr => {
+                if (mErr) {
+                    callback(mErr);
                 } else {
                     callback();
                 }
-            })
+            });
         }
     });
 };

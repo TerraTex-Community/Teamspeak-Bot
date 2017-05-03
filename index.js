@@ -14,15 +14,14 @@ loadConfig((config) => {
             throw err;
         }
 
-        data.startUpTeamspeak(err => {
-            if (err) {
-                throw err;
+        data.startUpTeamspeak(tErr => {
+            if (tErr) {
+                throw tErr;
             }
-
 
             //start up done
             //require feature systems
             require("./features/index");
-        })
+        });
     });
 });

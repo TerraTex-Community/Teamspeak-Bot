@@ -29,12 +29,16 @@ class Database {
                 console.error('Unable to connect to the database:', err);
             });
     }
-    
+
     loadModels(callback) {
         this._tableChannelStatistics = this._sequelize.import(__dirname + "/models/ChannelStatistics");
         this._sequelize.sync()
-            .then(success => {callback(null, success)})
-            .catch(err => {callback(err, null)});
+            .then(success => {
+                callback(null, success);
+            })
+            .catch(err => {
+                callback(err, null);
+            });
     }
 
     get tableChannelStatistics() {

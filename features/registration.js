@@ -29,7 +29,7 @@ class RegistrationSystem {
                 LastLogin: new Date()
             }
         });
-        findOrCreate.catch(err => console.error(err)).then(data => {
+        findOrCreate.catch(err => console.error(err)).then(() => {
             gDatabase.tableUser.update({
                 LastNickname: resp.client_nickname,
                 LastLogin: new Date()

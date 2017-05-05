@@ -36,7 +36,7 @@ class BotNativeChat {
                     gTeamspeak.client.send("sendtextmessage", {
                         targetmode: 1,
                         target: data.client,
-                        msg: "Darauf habe ich leider keine Antwort"
+                        msg: "Darauf habe ich leider keine Antwort."
                     });
                 }
             }

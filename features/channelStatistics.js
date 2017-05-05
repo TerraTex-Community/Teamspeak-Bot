@@ -160,6 +160,7 @@ class ChannelStatistics {
                 if (dbResults.hasOwnProperty(channelId) && this._updatedChannels.indexOf(channelId) === -1) {
                     this._updateChannelDescription(channelId, timeDefinitions, dbResults[channelId]);
 
+                    this._updatedChannels.push(channelId);
                     this._maxCounter++;
                     if (this._maxCounter !== -1 && this._maxCounter > gConfig.features.channelStatistics.updateMaxChannelsPerLoop) {
                         break;

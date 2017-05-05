@@ -16,7 +16,7 @@ loadConfig((config) => {
 
         data.startUpTeamspeak(tErr => {
             if (tErr) {
-                throw tErr;
+                throw new Error(tErr.error_id + ": " + tErr.message);
             }
 
             //start up done

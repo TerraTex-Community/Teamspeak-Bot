@@ -11,13 +11,3 @@ gCommands.on("onCommand", data => {
         });
     }
 });
-
-gCommands.on("onText", data => {
-    if (data.msg.toLowerCase().indexOf("hallo") !== -1) {
-        gTeamspeak.client.send("sendtextmessage", {
-            targetmode: 1,
-            target: data.client,
-            msg: "Hallo, Ich bin der persönliche Buttler des Teamspeaks!"
-        });
-    }
-});

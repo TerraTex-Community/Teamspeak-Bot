@@ -11,5 +11,9 @@ if (gConfig.features.registration.enabled) {
     require("./registration");
 }
 
+if (gConfig.features.botNativeChat.enabled) {
+    require("./botNativeChat");
+}
+
 // defaults
 require("./registerDefaultCommands");

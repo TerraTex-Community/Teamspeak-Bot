@@ -18,6 +18,7 @@ loadConfig((config) => {
             if (tErr) {
                 throw new Error(tErr.error_id + ": " + tErr.message);
             }
+            global.gCommands = require("./data/commandhandler");
 
             //start up done
             //require feature systems

@@ -10,3 +10,6 @@ if (gConfig.features.channelStatistics.enabled) {
 if (gConfig.features.registration.enabled) {
     require("./registration");
 }
+
+// defaults
+require("./registerDefaultCommands");

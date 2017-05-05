@@ -42,8 +42,15 @@ class Teamspeak {
                 if (uErr) {
                     return callback(uErr);
                 }
-                return callback();
+                this._readMyData(callback);
             });
+        });
+    }
+
+    _readMyData(callback) {
+        this._client.send("whoami", (err, resp) => {
+            this._data = resp.data;
+            callback();
         });
     }
 
@@ -53,6 +60,10 @@ class Teamspeak {
      */
     get client() {
         return this._client;
+    }
+
+    get myData() {
+        return this._data;
     }
 }
 module.exports = Teamspeak;

@@ -20,7 +20,8 @@ pipeline {
     }
     stage('Stop old TS-Bot') {
       steps {
-        sh 'ssh git.terratex.eu'
+        sh '''whoami
+'''
         sh 'ssh terratex.eu "pm2 stop tsbot"'
       }
     }

@@ -18,7 +18,7 @@ pipeline {
     }
     stage('Stop old TS-Bot') {
       steps {
-        sh 'ssh root@terratex.eu "REM pm2 stop tsbot"'
+        sh 'ssh root@terratex.eu "pm2 stop tsbot"'
       }
     }
     stage('Copy new TS-Bot') {
@@ -39,7 +39,7 @@ pipeline {
     }
     stage('Start new TS-Bot') {
       steps {
-        sh 'ssh root@terratex.eu "REM pm2 start tsbot"'
+        sh 'ssh root@terratex.eu "pm2 start tsbot"'
       }
     }
   }

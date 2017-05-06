@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Stop old TS-Bot') {
       steps {
-        node {
+        node('master') {
           sh 'ssh terratex.eu "pm2 stop tsbot"'
         }
       }

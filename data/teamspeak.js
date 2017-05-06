@@ -28,6 +28,12 @@ class Teamspeak {
         });
     }
 
+    _keepConnectionAlive() {
+        this._client.send("whoami", () => {
+            console.info("Sended a whoami ping");
+        });
+    }
+
     connect(callback) {
         this._client.api.login({
             client_login_name: gConfig.username,
@@ -50,6 +56,7 @@ class Teamspeak {
     _readMyData(callback) {
         this._client.send("whoami", (err, resp) => {
             this._data = resp.data;
+            setInterval(this._keepConnectionAlive.bind(this), 300000);
             callback();
         });
     }

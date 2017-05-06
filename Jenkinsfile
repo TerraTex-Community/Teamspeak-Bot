@@ -25,8 +25,8 @@ pipeline {
     }
     stage('Copy new TS-Bot') {
       steps {
-        sh 'ssh root@terratex.eu "rmdir "D:/TerraTex/Node-Apps/tsbot" /s /q"'
-        sh 'ssh root@terratex.eu "mkdir "D:/TerraTex/Node-Apps/tsbot""'
+        sh 'ssh root@terratex.eu "rmdir \"D:/TerraTex/Node-Apps/tsbot\" /s /q"'
+        sh 'ssh root@terratex.eu "mkdir \"D:/TerraTex/Node-Apps/tsbot\""'
         sh 'scp -r ./ root@terratex.eu:"D:/TerraTex/Node-Apps/tsbot"'
       }
     }

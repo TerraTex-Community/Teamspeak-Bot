@@ -7,7 +7,7 @@ pipeline {
           withSonarQubeEnv('TerraTex SonarQube') {
             sh "${tool 'SonarQubeScanner'}/bin/sonar-scanner -Dsonar.projectVersion=${BUILD_DISPLAY_NAME}"
           }
-
+          
           timeout(time: 1, unit: 'HOURS') {
             def qg = waitForQualityGate()
             if (qg.status != 'OK') {
@@ -15,6 +15,7 @@ pipeline {
             }
           }
         }
+        
       }
     }
   }

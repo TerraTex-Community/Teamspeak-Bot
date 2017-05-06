@@ -24,7 +24,7 @@ class BotNativeChat {
             context: {}
         },  function(err, response) {
             if (err) {
-                console.log('error:', err);
+                console.error('error:', err);
             } else {
                 if (response.output.text.length > 0) {
                     gTeamspeak.client.send("sendtextmessage", {

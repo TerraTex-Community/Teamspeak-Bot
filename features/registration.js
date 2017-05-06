@@ -88,7 +88,7 @@ class RegistrationSystem {
         gTeamspeak.client.send("servergroupaddclient", {
             cldbid: cldbid,
             sgid: gConfig.features.registration.groupId
-        }, (err, resp) => {
+        }, (err) => {
             if (!err || err.error_id === 2561) {
                 gDatabase.tableUser.update({
                     Registered: true

@@ -22,7 +22,7 @@ pipeline {
       steps {
         sh '''whoami
 '''
-        sh 'ssh terratex.eu "pm2 stop tsbot"'
+        sh 'ssh root@terratex.eu "pm2 stop tsbot"'
       }
     }
     stage('Copy new TS-Bot') {

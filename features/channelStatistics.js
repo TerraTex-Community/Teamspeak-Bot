@@ -117,7 +117,7 @@ class ChannelStatistics {
         for (const days in showStats) {
             if (showStats.hasOwnProperty(days)) {
                 const promise = this._generateStatsQuery(doNotEdit, days);
-                allPromises.push(promise.then(this._reformatStatsResult).catch(err => console.error(err)));
+                allPromises.push(promise.then(this._reformatStatsResult.bind(this, days)).catch(err => console.error(err)));
             }
         }
 
@@ -132,7 +132,7 @@ class ChannelStatistics {
         });
     }
 
-    _reformatStatsResult(data) {
+    _reformatStatsResult(days, data) {
         const result = {};
         for (const values of data) {
             const channel = values.dataValues;

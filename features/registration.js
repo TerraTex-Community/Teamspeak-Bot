@@ -44,7 +44,6 @@ class RegistrationSystem {
                     this._checkRegisterUpdate.bind(this),
                     (gConfig.features.registration.automaticAfterConnectTime * 60000 + 10000),
                     resp.clid,
-                    resp.client_nickname,
                     resp.client_unique_identifier
                 );
             } else {
@@ -75,7 +74,6 @@ class RegistrationSystem {
                             this._checkRegisterUpdate.bind(this),
                             300000,
                             resp.clid,
-                            resp.client_nickname,
                             resp.client_unique_identifier
                         );
                     }

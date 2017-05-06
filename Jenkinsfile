@@ -20,7 +20,9 @@ pipeline {
     }
     stage('Stop old TS-Bot') {
       steps {
-        sh 'ssh terratex.eu "pm2 stop tsbot"'
+        node {
+          sh 'ssh terratex.eu "pm2 stop tsbot"'
+        }
       }
     }
     stage('Copy new TS-Bot') {

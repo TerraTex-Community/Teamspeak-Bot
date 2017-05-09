@@ -54,6 +54,9 @@ class RegistrationSystem {
     }
 
     _checkRegisterUpdate(clientId, uniqueId) {
+        if (!clientId || !uniqueId) {
+            return;
+        }
         gTeamspeak.client.send("clientinfo", {clid: clientId}, (err, resp) => {
             if (!err && resp) {
                 const connectedTime = Math.round((new Date()).getTime() / 1000) - resp.data.client_lastconnected + 10;

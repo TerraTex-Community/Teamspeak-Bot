@@ -117,15 +117,7 @@ class ChannelStatistics {
         for (const days in showStats) {
             if (showStats.hasOwnProperty(days)) {
                 const promise = this._generateStatsQuery(doNotEdit, days);
-                allPromises.push(promise.then(data => {
-                    const result = {};
-                    for (const values of data) {
-                        const channel = values.dataValues;
-                        result[channel.ChannelID] = {[days]: values.dataValues};
-                    }
-
-                    return result;
-                }).catch(err => console.error(err)));
+                allPromises.push(promise.then(this._reformatStatsResult.bind(this, days)).catch(err => console.error(err)));
             }
         }
 
@@ -138,6 +130,16 @@ class ChannelStatistics {
                 this._updateChannelsOnce(showStats, result);
             }
         });
+    }
+
+    _reformatStatsResult(days, data) {
+        const result = {};
+        for (const values of data) {
+            const channel = values.dataValues;
+            result[channel.ChannelID] = {[days]: values.dataValues};
+        }
+
+        return result;
     }
 
     _updateChannelsOnce(timeDefinitions, dbResults) {

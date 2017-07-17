@@ -63,7 +63,7 @@ class ChannelStatistics {
                 }
             }
 
-            Promise.all(dbPromises).then(() => {
+            return Promise.all(dbPromises).then(() => {
                 //calc display to Teamspeak
                 this._calcTeamspeakDisplays(isNotEmpty);
             }).catch(errs => {
@@ -218,12 +218,12 @@ class ChannelStatistics {
                 description += ('\n\n' + newContent);
             }
 
-            gTeamspeak.client.send("channeledit", {
+            return gTeamspeak.client.send("channeledit", {
                 cid: channelId,
                 channel_description: description
             }, error => {
                 if (error) {
-                    return console.error(error);
+                    console.error(error);
                 }
             });
 

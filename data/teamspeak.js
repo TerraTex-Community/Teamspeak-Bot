@@ -42,13 +42,13 @@ class Teamspeak {
             if (err) {
                 return callback(err);
             }
-            this._client.api.use({
+            return this._client.api.use({
                 sid: gConfig.tsServerId
             }, uErr => {
                 if (uErr) {
                     return callback(uErr);
                 }
-                this._readMyData(callback);
+                return this._readMyData(callback);
             });
         });
     }

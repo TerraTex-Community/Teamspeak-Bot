@@ -61,7 +61,7 @@ class RegistrationSystem {
                 const connectedTime = Math.round((new Date()).getTime() / 1000) - resp.data.client_lastconnected + 10;
                 // if connected time is smaller it means there was a reconnect during that time
                 if (connectedTime > gConfig.features.registration.automaticAfterConnectTime) {
-                    if (resp.data.client_nickname !== "TeamSpeakUser") {
+                    if (resp.data.client_nickname.indexOf("TeamSpeakUser") !== -1) {
                         const getUser = gDatabase.tableUser.findAll({
                             where: {
                                 UniqueId: uniqueId

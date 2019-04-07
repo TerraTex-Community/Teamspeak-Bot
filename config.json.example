@@ -1,0 +1,49 @@
+{
+  "teamspeakIp": "terratex.eu",
+  "queryPort": 11000,
+  "username": "someuser",
+  "password": "somepassword",
+  "tsServerId": 4,
+  "features": {
+    "registration": {
+      "enabled": false,
+      "automaticAfterConnectTime": 10,
+      "groupId": 335
+    },
+    "channelStatistics": {
+      "enabled": true,
+      "showStats": [
+        {
+          "timeFrame": "1d",
+          "stats": [
+            "max",
+            "usage",
+            "avg"
+          ]
+        },
+        {
+          "timeFrame": "7d",
+          "stats": [
+            "usage"
+          ]
+        },
+        {
+          "timeFrame": "1m",
+          "stats": [
+            "usage"
+          ]
+        },
+        {
+          "timeFrame": "3m",
+          "stats": [
+            "usage"
+          ]
+        }
+      ],
+      "countTreeTogether": true,
+      "updateOncePerDay": true,
+      "updateChannelStartTime": "1:00",
+      "updateMaxChannelsPerLoop": 25
+    }
+  }
+}

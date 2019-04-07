@@ -1,8 +1,4 @@
-/**
- * Created by geramy on 17.02.17.
- */
-
-module.exports = {
+export let defaultConfig = {
     teamspeakIp: "127.0.0.1",
     // on Terratex: 20000
     queryPort: 10011,
@@ -11,19 +7,6 @@ module.exports = {
     password: null,
 
     features: {
-        botNativeChat: {
-            // this feature is based on conversation api of ibm's watson, to use this you need a dev account
-            // and a workspace. Additionally you should read docs and setup stuff if needed
-            // this is why this feature is by default turned off
-            enabled: false,
-            ibm: {
-                username: '',
-                password: '',
-                version: 'v1',
-                version_date: '2017-04-21',
-                workspace_id: ''
-            }
-        },
         channelStatistics: {
             enabled: true,
             // defaultTag: "Channel-Statistiken",  -> Not Used For Now
@@ -69,17 +52,8 @@ module.exports = {
             // set only once or everytime user has not this group
             onlyOnce: true
         }
-    },
-    database: {
-        // only sqlite and mysql are supported
-        type: "sqlite",
-        database: "teamspeak_bot",
-        // for sqlite
-        storage: 'storage.db',
-
-        // for mysql
-        host: 'localhost',
-        user: null,
-        password: null
     }
 };
+
+
+

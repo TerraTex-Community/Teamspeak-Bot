@@ -45,7 +45,7 @@ pipeline {
         bat 'move "D:/TerraTex/Node-Apps/tsbot\\ormconfig.json" "D:/TerraTex/Node-Apps/tsbot_pipeline_storage\\ormconfig.json" || exit 0'
         bat 'move "D:/TerraTex/Node-Apps/tsbot\\config.json" "D:/TerraTex/Node-Apps/tsbot_pipeline_storage\\config.json" || exit 0'
         bat 'rm -rf D:/TerraTex/Node-Apps/tsbot/*'
-        bat 'xcopy /e . D:/TerraTex/Node-Apps\\tsbot'
+        bat 'mv * D:/TerraTex/Node-Apps\\tsbot'
 
         bat 'move "D:/TerraTex/Node-Apps/tsbot_pipeline_storage\\ormconfig.json" "D:/TerraTex/Node-Apps/tsbot\\ormconfig.json"'
         bat 'move "D:/TerraTex/Node-Apps/tsbot_pipeline_storage\\config.json" "D:/TerraTex/Node-Apps/tsbot\\config.json"'

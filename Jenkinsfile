@@ -12,7 +12,7 @@ pipeline {
         }
     }
 
-    stage('Sonar-Scanner') {
+/*    stage('Sonar-Scanner') {
       steps {
         script {
           withSonarQubeEnv('SonarQube-Scanner') {
@@ -26,7 +26,7 @@ pipeline {
           }
         }
       }
-    }
+    } */
     
     stage('Stop old TS-Bot') {
       when {

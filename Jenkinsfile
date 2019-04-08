@@ -1,8 +1,15 @@
 pipeline {
-  agent { node { label "windows" } }
+  agent {
+    node {
+        label "windows"
+    }
+  }
+
   stages {
     stage('Install all libraries') {
-       bat 'yarn install'
+        steps {
+            bat 'yarn install'
+        }
     }
 
     stage('Sonar-Scanner') {
@@ -43,14 +50,6 @@ pipeline {
 
         bat 'move "D:/TerraTex/Node-Apps/tsbot_pipeline_storage/ormconfig.json" "D:/TerraTex/Node-Apps/tsbot/ormconfig.json"'
         bat 'move "D:/TerraTex/Node-Apps/tsbot_pipeline_storage/oonfig.json" "D:/TerraTex/Node-Apps/tsbot/oonfig.json"'
-      }
-    }
-
-    stage('move config') {
-      when {
-        branch 'master'
-      }
-      steps {
       }
     }
 

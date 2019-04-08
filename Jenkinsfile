@@ -15,8 +15,8 @@ pipeline {
     stage('Sonar-Scanner') {
       steps {
         script {
-          withSonarQubeEnv('SonarQubeScannerNew') {
-            sh "${tool 'SonarQubeScannerNew'}/bin/sonar-scanner -Dsonar.projectVersion=${BUILD_DISPLAY_NAME}"
+          withSonarQubeEnv('SonarQube-Scanner') {
+            sh "sonar-scanner -Dsonar.projectVersion=${BUILD_DISPLAY_NAME}"
           }
           timeout(time: 1, unit: 'HOURS') {
             def qg = waitForQualityGate()

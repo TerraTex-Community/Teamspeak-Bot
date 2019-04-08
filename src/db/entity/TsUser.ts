@@ -19,7 +19,9 @@ export class TsUser extends BaseEntity {
     @Column({
         nullable: true,
         default: null,
-        type: "varchar"
+        type: "varchar",
+        collation: "utf8_general_ci",
+        charset: "utf8"
     })
     lastNickname: string;
 

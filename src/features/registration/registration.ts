@@ -53,7 +53,7 @@ async function checkRegistration(data, dbUser: TsUser) {
 
     // if connected time is smaller it means there was a reconnect during that time
     if (connectedTime > getConfig().features.registration.automaticAfterConnectTime) {
-        if (clientInfo.response[0].client_nickname.indexOf("TeamSpeakUser") !== -1) {
+        if (clientInfo.response[0].client_nickname.indexOf("TeamSpeakUser") === -1) {
             if (!dbUser.registered || !getConfig().features.registration.onlyOnce) {
                 await registerGroup(data, dbUser);
             }

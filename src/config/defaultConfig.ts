@@ -7,6 +7,10 @@ export let defaultConfig = {
     password: null,
 
     features: {
+        welcomeMessage: {
+            enabled: true,
+            message: "Willkommen auf dem Teamspeak. Mich erreichst du unter !bot"
+        },
         channelStatistics: {
             enabled: true,
             // defaultTag: "Channel-Statistiken",  -> Not Used For Now

@@ -32,6 +32,7 @@ interface Config {
 interface FeatureConfiguration {
     channelStatistics: ChannelStatisticsConfiguration,
     registration: RegistrationConfiguration
+    welcomeMessage: {enabled: boolean, message: string}
 }
 
 interface ChannelStatisticsConfiguration {

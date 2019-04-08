@@ -15,7 +15,7 @@ pipeline {
     stage('Sonar-Scanner') {
       steps {
         script {
-          withSonarQubeEnv('TerraTex SonarQube') {
+          withSonarQubeEnv('SonarQubeScanner') {
             sh "${tool 'SonarQubeScanner'}/bin/sonar-scanner -Dsonar.projectVersion=${BUILD_DISPLAY_NAME}"
           }
           timeout(time: 1, unit: 'HOURS') {

@@ -10,7 +10,6 @@ export class ChannelStatistics {
 
     constructor() {
         setInterval(this.updateChannelEntries.bind(this), 600000);
-        this.updateChannelEntries();
     }
 
     async updateChannelEntries() {

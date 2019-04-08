@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Install all libraries') {
         steps {
-            bat 'yarn install'
+            bat 'npm install --prefer-offline'
         }
     }
 

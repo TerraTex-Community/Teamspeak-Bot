@@ -1,0 +1,17 @@
+# Teamspeak Bot
+written by TerraTex - [Geramy92](https://geramy92.de)
+
+## Requirements
+- [Node.js](https://nodejs.org/en/) 13.x.x or newer - older Versions are not tested but can work
+- MySql or MariaDb
+
+##Installation
+1. Download from Github
+2. run `npm i`
+3. rename and edit ormconfig.json.example to ormconfig.json with database configurations
+3. run `npm start`
+4. stop it again
+5. on first startup an example Configuration will be created - edit this file now as needed
+6. finally you can start the bot by running `npm start` - if you want to run it permanently and 
+manged (auto restart o crash e.g.) we suggest to use [pm2](https://pm2.keymetrics.io/)
+

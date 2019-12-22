@@ -14,7 +14,7 @@ tsCommandHandler.registerCommand(["bot"], async (args, cmdData) => {
     }
 }, "Öffne den Chat mit dem Bot.");
 
-tsCommandHandler.registerCommand(["hilfe"], async (args, cmdData) => {
+tsCommandHandler.registerCommand(["hilfe", "help"], async (args, cmdData) => {
     try {
         let helpString = "\n[u][b]Hilfe - Liste aller Botbefehle:[/b][/u] \n";
         const cmds = tsCommandHandler.getAllCommands();

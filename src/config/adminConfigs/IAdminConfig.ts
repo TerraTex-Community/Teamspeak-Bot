@@ -7,7 +7,7 @@
  */
 
 export interface IAdminConfig {
-    "adminRankNames": {
+    "adminRankDefinitions": {
         1: {
             name: string,
             tsGroupIds: number[]
@@ -25,4 +25,5 @@ export interface IAdminConfig {
             tsGroupIds: number[]
         }
     }
+    "adminWelcomeMessage": string
 }

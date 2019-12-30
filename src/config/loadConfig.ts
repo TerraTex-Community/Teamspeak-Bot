@@ -12,7 +12,7 @@ export async function loadConfig() {
 
         // @ts-ignore
         config = deepmerge(defaultConfig, loadedFile, {
-            arrayMerge: (destinationArray, sourceArray) => sourceArray
+            arrayMerge: (destinationArray, sourceArray, options) => sourceArray
         });
     } else {
         if (existsSync("example.config.json")) {

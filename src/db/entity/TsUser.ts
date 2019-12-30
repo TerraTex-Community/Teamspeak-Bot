@@ -20,8 +20,8 @@ export class TsUser extends BaseEntity {
         nullable: true,
         default: null,
         type: "varchar",
-        collation: "utf8_general_ci",
-        charset: "utf8"
+        collation: "utf8mb4_bin",
+        charset: "utf8mb4"
     })
     lastNickname: string;
 

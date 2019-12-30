@@ -10,7 +10,7 @@ export async function getAdminLevel(cliendDbId: number): Promise<number> {
     let highestLvl = 0;
     for (const groupData of data.response) {
         for(let i = 4; i > 0; i--) {
-            if (getConfig().admin.adminRankDefinitions[i].tsGroupIds.indexOf(groupData.sgid)) {
+            if (getConfig().admin.adminRankDefinitions[i].tsGroupIds.indexOf(groupData.sgid) !== -1) {
                 if (i > highestLvl) {
                     highestLvl = i;
                 }

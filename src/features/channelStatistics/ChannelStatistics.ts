@@ -13,57 +13,61 @@ export class ChannelStatistics {
     }
 
     async updateChannelEntries() {
-        this.channels = {};
+        try {
+            this.channels = {};
 
-        // @ts-ignore
-        const rData = await tsClient.send("channellist", {}, []);
-
-        for (const channel of rData.response) {
-            this.channels[channel.cid] = {
-                pid: channel.pid,
-                user: channel.total_clients,
-                userChilds: channel.total_clients
-            };
-        }
-        //
-        // // Calc Pids
-        for (const channelId in this.channels) {
-            if (!this.channels.hasOwnProperty(channelId)) {
-                continue;
-            }
-
-            const channel = this.channels[channelId];
-            let calcPid = channel.pid;
-            while (calcPid !== 0) {
-                this.channels[calcPid].userChilds += channel.user;
-                calcPid = this.channels[calcPid].pid;
-            }
-        }
-        //
-        const dbPromises = [];
-        const isNotEmpty = [];
-        // store in DB now
-        for (const channelId in this.channels) {
-            if (!this.channels.hasOwnProperty(channelId)) {
-                continue;
-            }
-            const channel = this.channels[channelId];
-
-            const statDb = new DbChannelStatistics();
             // @ts-ignore
-            statDb.channelId = channelId;
-            statDb.userCount = channel.user;
-            statDb.userCountWithChilds = channel.userChilds;
+            const rData = await tsClient.send("channellist", {}, []);
 
-            if (channel.user > 0) {
-                isNotEmpty.push(channelId);
+            for (const channel of rData.response) {
+                this.channels[channel.cid] = {
+                    pid: channel.pid,
+                    user: channel.total_clients,
+                    userChilds: channel.total_clients
+                };
+            }
+            //
+            // // Calc Pids
+            for (const channelId in this.channels) {
+                if (!this.channels.hasOwnProperty(channelId)) {
+                    continue;
+                }
+
+                const channel = this.channels[channelId];
+                let calcPid = channel.pid;
+                while (calcPid !== 0) {
+                    this.channels[calcPid].userChilds += channel.user;
+                    calcPid = this.channels[calcPid].pid;
+                }
+            }
+            //
+            const dbPromises = [];
+            const isNotEmpty = [];
+            // store in DB now
+            for (const channelId in this.channels) {
+                if (!this.channels.hasOwnProperty(channelId)) {
+                    continue;
+                }
+                const channel = this.channels[channelId];
+
+                const statDb = new DbChannelStatistics();
+                // @ts-ignore
+                statDb.channelId = channelId;
+                statDb.userCount = channel.user;
+                statDb.userCountWithChilds = channel.userChilds;
+
+                if (channel.user > 0) {
+                    isNotEmpty.push(channelId);
+                }
+
+                dbPromises.push(statDb.save());
             }
 
-            dbPromises.push(statDb.save());
+            await Promise.all(dbPromises);
+            await this.calcTeamspeakDisplays(isNotEmpty);
+        } catch (e) {
+            console.error(e)
         }
-
-        await Promise.all(dbPromises);
-        await this.calcTeamspeakDisplays(isNotEmpty);
     }
 
     /**

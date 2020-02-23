@@ -37,10 +37,18 @@ async function onUserJoin(data) {
 
     if (getConfig().features.registration.automaticAfterConnectTime > 0) {
         setTimeout(async () => {
-            await checkRegistration(data, dbUser);
+            try {
+                await checkRegistration(data, dbUser);
+            } catch (e) {
+                console.error(e);
+            }
         }, getConfig().features.registration.automaticAfterConnectTime);
     } else {
-        await checkRegistration(data, dbUser);
+        try {
+            await checkRegistration(data, dbUser);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
 }

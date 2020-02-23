@@ -7,7 +7,11 @@ export async function initWelcomeMessage() {
     await tsClient.subscribeServerEvents();
 
     tsClient.on('cliententerview', async data => {
-        await onUserJoin(data[0]);
+        try {
+            await onUserJoin(data[0]);
+        } catch (e) {
+            console.error(e);
+        }
     });
 }
 
